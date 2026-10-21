@@ -17,6 +17,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDeviationsIndexRouteImport } from './routes/_authenticated/deviations.index'
+import { Route as AuthenticatedDeviationsIdRouteImport } from './routes/_authenticated/deviations.$id'
 import { Route as AuthenticatedDeviationsNewRouteImport } from './routes/_authenticated/deviations.new'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,12 @@ const AuthenticatedDeviationsIndexRoute =
     path: '/deviations/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDeviationsIdRoute =
+  AuthenticatedDeviationsIdRouteImport.update({
+    id: '/deviations/$id',
+    path: '/deviations/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDeviationsNewRoute =
   AuthenticatedDeviationsNewRouteImport.update({
     id: '/deviations/new',
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
   '/deviations/': typeof AuthenticatedDeviationsIndexRoute
 }
@@ -83,6 +91,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
   '/deviations': typeof AuthenticatedDeviationsIndexRoute
 }
@@ -95,6 +104,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/_authenticated/deviations/new': typeof AuthenticatedDeviationsNewRoute
   '/_authenticated/deviations/': typeof AuthenticatedDeviationsIndexRoute
 }
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/deviations/$id'
     | '/deviations/new'
     | '/deviations/'
   fileRoutesByTo: FileRoutesByTo
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/deviations/$id'
     | '/deviations/new'
     | '/deviations'
   id:
@@ -128,6 +140,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/_authenticated/deviations/$id'
     | '/_authenticated/deviations/new'
     | '/_authenticated/deviations/'
   fileRoutesById: FileRoutesById
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDeviationsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/deviations/$id': {
+      id: '/_authenticated/deviations/$id'
+      path: '/deviations/$id'
+      fullPath: '/deviations/$id'
+      preLoaderRoute: typeof AuthenticatedDeviationsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/deviations/new': {
       id: '/_authenticated/deviations/new'
       path: '/deviations/new'
@@ -211,12 +231,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDeviationsIdRoute: typeof AuthenticatedDeviationsIdRoute
   AuthenticatedDeviationsNewRoute: typeof AuthenticatedDeviationsNewRoute
   AuthenticatedDeviationsIndexRoute: typeof AuthenticatedDeviationsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDeviationsIdRoute: AuthenticatedDeviationsIdRoute,
   AuthenticatedDeviationsNewRoute: AuthenticatedDeviationsNewRoute,
   AuthenticatedDeviationsIndexRoute: AuthenticatedDeviationsIndexRoute,
 }
