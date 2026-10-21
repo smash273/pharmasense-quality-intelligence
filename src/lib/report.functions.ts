@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { REPORT_SECTIONS, TEMPLATE_VERSION, reportContentSchema } from "./report-schema";
 
-const MODEL = "google/gemini-2.5-pro" as const;
+const MODEL = "google/gemini-3.8-flash" as const;
 
 const SYSTEM = `You are a pharmaceutical quality investigation report writer (GMP deviation investigations).
 STRICT RULES:
