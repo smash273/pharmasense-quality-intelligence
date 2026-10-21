@@ -15,7 +15,11 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAuditTrailRouteImport } from './routes/_authenticated/audit-trail'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
 import { Route as AuthenticatedCapaIndexRouteImport } from './routes/_authenticated/capa.index'
 import { Route as AuthenticatedCapaIdRouteImport } from './routes/_authenticated/capa.$id'
 import { Route as AuthenticatedDeviationsIndexRouteImport } from './routes/_authenticated/deviations.index'
@@ -53,9 +57,30 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAuditTrailRoute = AuthenticatedAuditTrailRouteImport.update({
+  id: '/audit-trail',
+  path: '/audit-trail',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCapaIndexRoute = AuthenticatedCapaIndexRouteImport.update({
@@ -104,7 +129,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/audit-trail': typeof AuthenticatedAuditTrailRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/users': typeof AuthenticatedUsersRoute
   '/capa/$id': typeof AuthenticatedCapaIdRoute
   '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
@@ -119,7 +148,11 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/audit-trail': typeof AuthenticatedAuditTrailRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/users': typeof AuthenticatedUsersRoute
   '/capa/$id': typeof AuthenticatedCapaIdRoute
   '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
@@ -136,7 +169,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/audit-trail': typeof AuthenticatedAuditTrailRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/users': typeof AuthenticatedUsersRoute
   '/_authenticated/capa/$id': typeof AuthenticatedCapaIdRoute
   '/_authenticated/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/_authenticated/deviations/new': typeof AuthenticatedDeviationsNewRoute
@@ -153,7 +190,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/audit-trail'
     | '/dashboard'
+    | '/notifications'
+    | '/settings'
+    | '/users'
     | '/capa/$id'
     | '/deviations/$id'
     | '/deviations/new'
@@ -168,7 +209,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/audit-trail'
     | '/dashboard'
+    | '/notifications'
+    | '/settings'
+    | '/users'
     | '/capa/$id'
     | '/deviations/$id'
     | '/deviations/new'
@@ -184,7 +229,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/_authenticated/audit-trail'
     | '/_authenticated/dashboard'
+    | '/_authenticated/notifications'
+    | '/_authenticated/settings'
+    | '/_authenticated/users'
     | '/_authenticated/capa/$id'
     | '/_authenticated/deviations/$id'
     | '/_authenticated/deviations/new'
@@ -247,11 +296,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/audit-trail': {
+      id: '/_authenticated/audit-trail'
+      path: '/audit-trail'
+      fullPath: '/audit-trail'
+      preLoaderRoute: typeof AuthenticatedAuditTrailRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/users': {
+      id: '/_authenticated/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedUsersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/capa/': {
@@ -307,7 +384,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAuditTrailRoute: typeof AuthenticatedAuditTrailRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedUsersRoute: typeof AuthenticatedUsersRoute
   AuthenticatedCapaIdRoute: typeof AuthenticatedCapaIdRoute
   AuthenticatedDeviationsIdRoute: typeof AuthenticatedDeviationsIdRoute
   AuthenticatedDeviationsNewRoute: typeof AuthenticatedDeviationsNewRoute
@@ -318,7 +399,11 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAuditTrailRoute: AuthenticatedAuditTrailRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedUsersRoute: AuthenticatedUsersRoute,
   AuthenticatedCapaIdRoute: AuthenticatedCapaIdRoute,
   AuthenticatedDeviationsIdRoute: AuthenticatedDeviationsIdRoute,
   AuthenticatedDeviationsNewRoute: AuthenticatedDeviationsNewRoute,
