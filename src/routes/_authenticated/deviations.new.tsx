@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,6 +40,8 @@ function NewDeviation() {
   const { data: profiles } = useProfiles();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
+  const errRef = useRef(errors);
+  errRef.current = errors;
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -59,19 +61,19 @@ function NewDeviation() {
     nav({ to: "/deviations/$id", params: { id: data.id } });
   }
 
-  const F = ({ n, l, area, ...p }: { n: string; l: string; area?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
+  const F = useMemo(() => ({ n, l, area, ...p }: { n: string; l: string; area?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
     <label className="block space-y-1">
       <span className="field-label">{l}</span>
-      {area ? <Textarea name={n} rows={3} aria-invalid={!!errors[n]} /> : <Input name={n} aria-invalid={!!errors[n]} {...p} />}
-      {errors[n] && <span className="text-xs text-destructive">{errors[n]}</span>}
+      {area ? <Textarea name={n} rows={3} aria-invalid={!!errRef.current[n]} /> : <Input name={n} aria-invalid={!!errRef.current[n]} {...p} />}
+      {errRef.current[n] && <span className="text-xs text-destructive">{errRef.current[n]}</span>}
     </label>
-  );
-  const S = ({ n, l, opts, def }: { n: string; l: string; opts: [string, string][]; def?: string }) => (
+  ), []);
+  const S = useMemo(() => ({ n, l, opts, def }: { n: string; l: string; opts: [string, string][]; def?: string }) => (
     <label className="block space-y-1"><span className="field-label">{l}</span>
       <select name={n} defaultValue={def} className="h-9 w-full rounded-md border bg-card px-2 text-sm">{opts.map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select>
-      {errors[n] && <span className="text-xs text-destructive">{errors[n]}</span>}
+      {errRef.current[n] && <span className="text-xs text-destructive">{errRef.current[n]}</span>}
     </label>
-  );
+  ), []);
 
   if (me && !me.canWrite) return <p className="text-muted-foreground">Your role is read-only.</p>;
   return (
