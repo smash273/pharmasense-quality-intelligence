@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated/capa/")({
   component: CapaList,
 });
 
-export const isOverdue = (c: { due_date: string; status: string }) =>
+const isOverdue = (c: { due_date: string; status: string }) =>
   c.due_date < new Date().toISOString().slice(0, 10) && ["proposed", "assigned", "in_progress"].includes(c.status);
 
 function CapaList() {

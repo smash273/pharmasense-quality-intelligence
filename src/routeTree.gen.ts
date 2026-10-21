@@ -16,9 +16,13 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCapaIndexRouteImport } from './routes/_authenticated/capa.index'
+import { Route as AuthenticatedCapaIdRouteImport } from './routes/_authenticated/capa.$id'
 import { Route as AuthenticatedDeviationsIndexRouteImport } from './routes/_authenticated/deviations.index'
 import { Route as AuthenticatedDeviationsIdRouteImport } from './routes/_authenticated/deviations.$id'
 import { Route as AuthenticatedDeviationsNewRouteImport } from './routes/_authenticated/deviations.new'
+import { Route as AuthenticatedReportsIndexRouteImport } from './routes/_authenticated/reports.index'
+import { Route as AuthenticatedReportsIdRouteImport } from './routes/_authenticated/reports.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -54,6 +58,16 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCapaIndexRoute = AuthenticatedCapaIndexRouteImport.update({
+  id: '/capa/',
+  path: '/capa/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCapaIdRoute = AuthenticatedCapaIdRouteImport.update({
+  id: '/capa/$id',
+  path: '/capa/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDeviationsIndexRoute =
   AuthenticatedDeviationsIndexRouteImport.update({
     id: '/deviations/',
@@ -72,6 +86,17 @@ const AuthenticatedDeviationsNewRoute =
     path: '/deviations/new',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReportsIndexRoute =
+  AuthenticatedReportsIndexRouteImport.update({
+    id: '/reports/',
+    path: '/reports/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsIdRoute = AuthenticatedReportsIdRouteImport.update({
+  id: '/reports/$id',
+  path: '/reports/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,9 +105,13 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/capa/$id': typeof AuthenticatedCapaIdRoute
   '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
+  '/reports/$id': typeof AuthenticatedReportsIdRoute
+  '/capa/': typeof AuthenticatedCapaIndexRoute
   '/deviations/': typeof AuthenticatedDeviationsIndexRoute
+  '/reports/': typeof AuthenticatedReportsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,9 +120,13 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/capa/$id': typeof AuthenticatedCapaIdRoute
   '/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/deviations/new': typeof AuthenticatedDeviationsNewRoute
+  '/reports/$id': typeof AuthenticatedReportsIdRoute
+  '/capa': typeof AuthenticatedCapaIndexRoute
   '/deviations': typeof AuthenticatedDeviationsIndexRoute
+  '/reports': typeof AuthenticatedReportsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,9 +137,13 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/capa/$id': typeof AuthenticatedCapaIdRoute
   '/_authenticated/deviations/$id': typeof AuthenticatedDeviationsIdRoute
   '/_authenticated/deviations/new': typeof AuthenticatedDeviationsNewRoute
+  '/_authenticated/reports/$id': typeof AuthenticatedReportsIdRoute
+  '/_authenticated/capa/': typeof AuthenticatedCapaIndexRoute
   '/_authenticated/deviations/': typeof AuthenticatedDeviationsIndexRoute
+  '/_authenticated/reports/': typeof AuthenticatedReportsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,9 +154,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/capa/$id'
     | '/deviations/$id'
     | '/deviations/new'
+    | '/reports/$id'
+    | '/capa/'
     | '/deviations/'
+    | '/reports/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,9 +169,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/capa/$id'
     | '/deviations/$id'
     | '/deviations/new'
+    | '/reports/$id'
+    | '/capa'
     | '/deviations'
+    | '/reports'
   id:
     | '__root__'
     | '/'
@@ -140,9 +185,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/_authenticated/capa/$id'
     | '/_authenticated/deviations/$id'
     | '/_authenticated/deviations/new'
+    | '/_authenticated/reports/$id'
+    | '/_authenticated/capa/'
     | '/_authenticated/deviations/'
+    | '/_authenticated/reports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -205,6 +254,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/capa/': {
+      id: '/_authenticated/capa/'
+      path: '/capa'
+      fullPath: '/capa/'
+      preLoaderRoute: typeof AuthenticatedCapaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/capa/$id': {
+      id: '/_authenticated/capa/$id'
+      path: '/capa/$id'
+      fullPath: '/capa/$id'
+      preLoaderRoute: typeof AuthenticatedCapaIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/deviations/': {
       id: '/_authenticated/deviations/'
       path: '/deviations'
@@ -226,21 +289,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDeviationsNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reports/': {
+      id: '/_authenticated/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof AuthenticatedReportsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/$id': {
+      id: '/_authenticated/reports/$id'
+      path: '/reports/$id'
+      fullPath: '/reports/$id'
+      preLoaderRoute: typeof AuthenticatedReportsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedCapaIdRoute: typeof AuthenticatedCapaIdRoute
   AuthenticatedDeviationsIdRoute: typeof AuthenticatedDeviationsIdRoute
   AuthenticatedDeviationsNewRoute: typeof AuthenticatedDeviationsNewRoute
+  AuthenticatedReportsIdRoute: typeof AuthenticatedReportsIdRoute
+  AuthenticatedCapaIndexRoute: typeof AuthenticatedCapaIndexRoute
   AuthenticatedDeviationsIndexRoute: typeof AuthenticatedDeviationsIndexRoute
+  AuthenticatedReportsIndexRoute: typeof AuthenticatedReportsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedCapaIdRoute: AuthenticatedCapaIdRoute,
   AuthenticatedDeviationsIdRoute: AuthenticatedDeviationsIdRoute,
   AuthenticatedDeviationsNewRoute: AuthenticatedDeviationsNewRoute,
+  AuthenticatedReportsIdRoute: AuthenticatedReportsIdRoute,
+  AuthenticatedCapaIndexRoute: AuthenticatedCapaIndexRoute,
   AuthenticatedDeviationsIndexRoute: AuthenticatedDeviationsIndexRoute,
+  AuthenticatedReportsIndexRoute: AuthenticatedReportsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
