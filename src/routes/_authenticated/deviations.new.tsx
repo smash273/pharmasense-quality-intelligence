@@ -54,7 +54,7 @@ function NewDeviation() {
     setErrors({});
     setBusy(true);
     const v = r.data;
-    const { data, error } = await supabase.from("deviations").insert({ ...v, detected_at: new Date(v.detected_at).toISOString(), owner_id: v.owner_id || me?.id, created_by: me!.id, status: "open" }).select("id").single();
+    const { data, error } = await supabase.from("deviations").insert({ ...v, detected_at: new Date(v.detected_at).toISOString(), owner_id: v.owner_id || me?.id, created_by: me!.id, status: "open" } as never).select("id").single();
     setBusy(false);
     if (error) return toast.error(error.message);
     toast.success("Deviation created");

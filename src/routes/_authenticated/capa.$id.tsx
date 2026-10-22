@@ -34,7 +34,7 @@ function CapaDetail() {
   const overdue = c.due_date < new Date().toISOString().slice(0, 10) && ["proposed", "assigned", "in_progress"].includes(c.status);
 
   async function update(patch: Record<string, unknown>, ok: string) {
-    const { error } = await supabase.from("capas").update(patch).eq("id", id);
+    const { error } = await supabase.from("capas").update(patch as never).eq("id", id);
     if (error) return toast.error(error.message);
     toast.success(ok);
     qc.invalidateQueries({ queryKey: ["capa", id] }); qc.invalidateQueries({ queryKey: ["audit"] });
