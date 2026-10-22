@@ -13,7 +13,7 @@ export function CapaForm({ deviationId, onCreated }: { deviationId: string; onCr
     e.preventDefault();
     const form = e.currentTarget;
     const f = Object.fromEntries(new FormData(form)) as Record<string, string>;
-    if (f.problem.trim().length < 5 || f.action.trim().length < 5) return toast.error("Problem and action are required.");
+    if (f.problem.trim().length < 5 || f.action.trim().length < 5) { toast.error("Problem and action are required."); return; }
     setBusy(true);
     const { error } = await supabase.from("capas").insert({
       deviation_id: deviationId, kind: f.kind as "corrective" | "preventive", problem: f.problem, action: f.action, rationale: f.rationale || null,
