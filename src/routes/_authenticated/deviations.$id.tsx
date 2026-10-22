@@ -146,7 +146,7 @@ function Investigation({ inv, canWrite, onSaved }: { inv: Inv | null; canWrite: 
   if (!inv) return null;
   async function save() {
     setSaving(true);
-    const { error } = await supabase.from("investigations").update(form).eq("id", inv!.id);
+    const { error } = await supabase.from("investigations").update(form as never).eq("id", inv!.id);
     setSaving(false);
     if (error) return toast.error(error.message);
     setDirty(false); toast.success("Investigation saved"); onSaved();
